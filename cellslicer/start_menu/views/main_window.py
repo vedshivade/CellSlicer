@@ -14,11 +14,6 @@ class MainWindow(QMainWindow):
         self.controller = controller
         self.state = state
 
-        try:
-            base_path = getattr(sys, "_MEIPASS", ".") + "/icons"
-        except Exception:
-            base_path = os.path.abspath("/icons")
-
         self.main_layout = QHBoxLayout()
         self.main_widget = QWidget()
         self.main_widget.setLayout(self.main_layout)

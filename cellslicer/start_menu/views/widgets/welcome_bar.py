@@ -9,7 +9,7 @@ class WelcomeBar(QFrame):
 
     def __init__(self, state = None, controller = None):
 
-        std_style_sheet = ("QPushButton { background-color: black; border-style: outset; color: white; font-family: Roboto; border-radius: 2px; font: 12px; min-width: 3em; padding: 6px; border-color: beige;}"
+        std_style_sheet = ("QPushButton { background-color: black; border-style: outset; color: white; font-family: Roboto; border-radius: 2px; font: 16px; min-width: 3em; padding: 6px; border-color: beige;}"
                             "QPushButton::hover { background-color: white; color: black; border-style: solid; border: 2px solid black; padding: 4px; border-radius: 4px }"
                             "QPushButton::pressed { background-color: white; border-style: inset; border: 3px solid black; padding: 0px; border-radius: 4px}"
                             )
@@ -33,6 +33,7 @@ class WelcomeBar(QFrame):
         self.import_new_images_button = QPushButton()
         self.import_new_images_button.setText("Create New Project")
         self.import_new_images_button.setStyleSheet(std_style_sheet)
+        self.import_new_images_button.clicked.connect(self.on_click_create_new_project)
 
         self.open_project_button = QPushButton()
         self.open_project_button.setText("Open Project")
@@ -46,8 +47,7 @@ class WelcomeBar(QFrame):
         self.layout.addWidget(self.import_new_images_button)
         self.layout.addWidget(self.freestyle_button)
 
-        self.layout.addStretch(1)  # Add stretchable space at the end
-
+        self.layout.addStretch(1)  
 
         self.config_layout = QHBoxLayout()
 
@@ -86,5 +86,8 @@ class WelcomeBar(QFrame):
 
     def on_click_profile(self):
         print("Profile")
+
+    def on_click_create_new_project(self):
+        self.controller.open_project_menu()
 
 
