@@ -111,7 +111,7 @@ class BasicInfo(QFrame):
     def on_project_name_changed(self):        
         if self.project_name_entry.text() != "":
             self.project_saved_label.setVisible(True)
-            self.project_saved_label.setText("Project will be saved at " + os.getcwd() + "/cellslicer/projects/" + self.project_name_entry.text())
+            self.project_saved_label.setText("Project will be saved at " + os.getcwd() + "/projects/" + self.project_name_entry.text())
             self.controller.handle_project_name_changed(self.project_name_entry.text())
         else:
             self.project_saved_label.setVisible(False)
