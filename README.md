@@ -3,3 +3,6 @@ Open-source microscopic segmentation/classification platform with editing + in-a
 
 ## In progress!
 ![Image 1](./screenshots/start_and_project_config.png)
+
+![Image 2](./screenshots/start_and_editor.png)
+
