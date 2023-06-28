@@ -1,5 +1,4 @@
 import numpy as np
-import tensorflow as tf
 from skimage.morphology import binary_erosion
 from skimage.morphology import disk
 from skimage import img_as_ubyte
@@ -72,8 +71,6 @@ def graph_cut(data_img, prior = 0.8, max_weight = 2, sigma = 0.3):
   sgm_img = (sgm_img * 255).astype(np.uint8)
 
   return sgm_img 
-
-cv2.imwrite('test.png', graph_cut(cv2.imread('sp.png', 0)))
 
 
 

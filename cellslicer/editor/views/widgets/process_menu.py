@@ -70,7 +70,7 @@ class ProcessMenu(QWidget):
         self.layout.addWidget(self.skeletonize_button)
         self.skeletonize_button.setVisible(False)
 
-        
+
 
         spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.layout.addItem(spacer)
@@ -95,8 +95,10 @@ class ProcessMenu(QWidget):
         self.controller.update_process_ladder(self.current_process, self.process_selection.currentText())
 
     def on_click_graph_cut(self):
-        print()
+        self.controller.update_process_task(self.current_process, "Graph Cut")
 
+    def on_click_skeletonize(self):
+        print()
 
         
 

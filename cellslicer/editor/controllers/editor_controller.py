@@ -24,3 +24,10 @@ class EditorController:
     def update_process_ladder(self, current_process, process):
         self.state.update_ladder(current_process, process)
 
+    def update_process_task(self, process, task):
+        self.state.update_process_task(process, task)
+
+    def handle_start_queue(self):
+        self.state.start_queue()
+
+

@@ -12,7 +12,8 @@ class ImageWidget(QWidget):
         image = self.pixmap.scaled(300, 300, Qt.KeepAspectRatio)
 
         icon = QIcon(image)
-        has_icon = not icon.isNull()
+        self.has_icon = not icon.isNull()
+
 
 
         self.button = QPushButton()
@@ -37,7 +38,7 @@ class ImageWidget(QWidget):
 
         self.button.setMinimumSize(300, 300)
 
-        if not has_icon:
+        if not self.has_icon:
             self.button.setText(f"Process {process}")
             self.button.setFont(QFont("Roboto", 48))
 
@@ -70,9 +71,14 @@ class ImageGridView(QWidget):
         self.setLayout(self.layout)
 
         self.state.imageSelected.connect(self.on_image_selected)
+        self.state.tasksUpdated.connect(self.update_tasks)
+
 
         self.image_widgets = []
         self.create_empty_grid()
+
+    def update_tasks(self, process, task):
+        print(process)
 
     def create_empty_grid(self):
         for i in range(2):

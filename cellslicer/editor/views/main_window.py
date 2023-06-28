@@ -23,7 +23,7 @@ class EditorMenu(QMainWindow):
         self.main_widget.setLayout(self.main_layout)
 
         self.setWindowTitle("CellSlicer Editor")
-        self.setFixedSize(1500, 820)
+        self.setFixedSize(1700, 820)
         self.setStyleSheet("background-color: white; color: black")
 
         self.initialize_editor(self.state, self.controller)
