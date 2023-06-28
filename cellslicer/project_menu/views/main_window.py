@@ -15,6 +15,8 @@ class MainWindow(QMainWindow):
         self.controller = controller
         self.state = state
 
+        self.state.launchEditor.connect(self.handle_launch_editor)
+
         self.main_layout = QVBoxLayout()
         self.main_widget = QWidget()
         self.main_widget.setLayout(self.main_layout)
@@ -45,5 +47,8 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         event.accept()
+
+    def handle_launch_editor(self):
+        self.close()
         
 

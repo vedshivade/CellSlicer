@@ -5,6 +5,7 @@ from PySide2.QtGui import QDesktopServices
 from PySide2.QtCore import QUrl
 
 from cellslicer.project_menu.project_menu import ProjectMenu
+from cellslicer.editor.editor import EditorWindow
 
 import numpy as np
 from skimage import io
@@ -23,3 +24,10 @@ class StartMenuController:
     def open_project_menu(self):
         project_config = ProjectMenu()
         project_config.start()
+
+    def open_old_project(self):
+        project = self.state.select_project()
+
+        editor_window = EditorWindow(project)
+        editor_window.start()
+        

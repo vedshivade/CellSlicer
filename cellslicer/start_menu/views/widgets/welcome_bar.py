@@ -37,6 +37,7 @@ class WelcomeBar(QFrame):
 
         self.open_project_button = QPushButton()
         self.open_project_button.setText("Open Project")
+        self.open_project_button.clicked.connect(self.on_click_open_project)
         self.open_project_button.setStyleSheet(std_style_sheet)
 
         self.freestyle_button = QPushButton()
@@ -89,5 +90,9 @@ class WelcomeBar(QFrame):
 
     def on_click_create_new_project(self):
         self.controller.open_project_menu()
+
+    def on_click_open_project(self):
+        self.controller.open_old_project()
+        
 
 

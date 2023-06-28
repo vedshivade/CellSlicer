@@ -5,6 +5,8 @@ from PySide2.QtGui import QDesktopServices
 from PySide2.QtCore import QUrl
 from PySide2.QtWidgets import QApplication
 
+from cellslicer.editor.editor import EditorWindow
+
 class ProjectMenuController:
 
     def __init__(self, state):
@@ -27,6 +29,10 @@ class ProjectMenuController:
 
     def handle_choose_model_changed(self, text):
         self.state.update_choose_model(text)
-        print(text)
 
+    def handle_launch_editor(self):
+        self.state.launch_editor()
+
+        editor_menu = EditorWindow(self.state)
+        editor_menu.start()
 

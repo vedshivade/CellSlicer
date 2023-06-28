@@ -3,6 +3,7 @@ from PySide2.QtGui import QFont, QIcon
 from PySide2.QtCore import Qt, QSize
 import os, sys
 
+
 class BasicInfo(QFrame):
     def __init__(self, state = None, controller = None):
 
@@ -21,6 +22,9 @@ class BasicInfo(QFrame):
         super().__init__()
         self.state = state
         self.controller = controller
+
+        self.state.progressChanged.connect(self.on_progress_changed)
+        self.state.copyingDone.connect(self.on_copying_done)
 
         self.layout = QVBoxLayout()
         self.layout.setSpacing(5)
@@ -127,6 +131,19 @@ class BasicInfo(QFrame):
             self.project_name_entry.setStyleSheet("background-color: white; color: red; border: 1px solid red; border-radius: 2px; padding: 4px;")
         else:
             self.controller.handle_begin()
+
+    def on_progress_changed(self, progress, copied_files):
+
+        self.import_and_begin_button.setStyleSheet("background-color: seagreen; border-style: outset; color: white; font-family: Roboto; border-radius: 2px; font: 16px; min-width: 3em; padding: 6px; border-color: beige;")
+
+        if progress == 100:
+            self.import_and_begin_button.setText("Done!")
+        else:
+            self.import_and_begin_button.setText("Copied " + str(copied_files) + "/" + str(len(self.state.images)) + " files")
+
+    def on_copying_done(self):
+        self.controller.handle_launch_editor()
+
 
         
 

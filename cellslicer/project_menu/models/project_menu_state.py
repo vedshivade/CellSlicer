@@ -2,7 +2,7 @@ import os, sys
 from PySide2.QtWidgets import QFileDialog, QProgressBar, QDialog, QVBoxLayout, QLabel, QApplication
 from PySide2 import QtWidgets
 from PySide2.QtGui import QDesktopServices
-from PySide2.QtCore import QUrl
+from PySide2.QtCore import Signal, QObject
 import shutil
 
 class ProgressDialog(QDialog):
@@ -25,9 +25,14 @@ class ProgressDialog(QDialog):
         self.progress_bar.setValue(progress)
         self.status_label.setText(f"Copied {copied_files} out of {self.total_files} files")
 
-class ProjectMenuState:
+class ProjectMenuState(QObject):
+
+    progressChanged = Signal(int, int)
+    copyingDone = Signal()
+    launchEditor = Signal()
 
     def __init__(self):
+        super().__init__()
         self.images = []
         self.project_name = ""
         self.data_labeled = False
@@ -45,35 +50,59 @@ class ProjectMenuState:
                 images.append(file_path)
 
         self.images = images
+
         return images
+    
+    def create_text_file(self):
+        dir_path = "../cellslicer/projects/" + self.project_name + "/"
+        if not os.path.exists(dir_path):
+            os.makedirs(dir_path)
+
+        file_path = dir_path + "data.txt"
+        f = open(file_path, "w")
+        f.write("Project Name: " + self.project_name + "\n")
+        f.write("Data Labeled: " + str(self.data_labeled) + "\n")
+        f.write("Model: " + self.chosen_model + "\n")
+        f.close()
+
+    def create_sub_folders(self):
+        dir_path = "../cellslicer/projects/" + self.project_name + "/"
+        for i in range(1, 6):
+            os.makedirs(dir_path + "process_" + str(i) + "/")
 
     def begin(self):
         dir_path = "../cellslicer/projects/" + self.project_name + "/raw_images/"
         os.makedirs(dir_path, exist_ok=True)
 
-        dialog = ProgressDialog(len(self.images))
-        dialog.show()
-
+        copied_images = []
+        i = 0
         for i, file in enumerate(self.images):
-            shutil.copy(file, dir_path)
+            i = i + 1
+            new_file_path = os.path.join(dir_path, os.path.basename(file) + "_CS" + f"{i}.png")  # New file path with a different name
+            shutil.copy(file, new_file_path)
+            copied_images.append(new_file_path)
 
             progress = (i + 1) / len(self.images) * 100
-            dialog.update_progress(progress, i+1)
+            self.progressChanged.emit(progress, i+1)
             QApplication.instance().processEvents()
 
-        dialog.close()
+        self.images = copied_images
+        self.create_sub_folders()
+        self.create_text_file()
+        self.copyingDone.emit()
+
 
     def update_project_name(self, text):
         self.project_name = text
-        print(self.project_name)
 
     def update_data_labeled(self, text):
         if text == "Yes":
             self.data_labeled = True
         else:
             self.data_labeled = False
-        print(self.data_labeled)
 
     def update_choose_model(self, text):
         self.chosen_model = text
-        print(self.chosen_model)
+
+    def launch_editor(self):
+        self.launchEditor.emit()

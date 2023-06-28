@@ -18,11 +18,13 @@ class MainWindow(QMainWindow):
         self.main_widget = QWidget()
         self.main_widget.setLayout(self.main_layout)
 
+
         self.setCentralWidget(self.main_widget)
         self.setWindowTitle("CellSlicer v0.1.0")
         self.setFixedSize(640, 480)
         self.setStyleSheet("background-color: white;"
                            "color: white")
+        
         
         self.welcome_bar = WelcomeBar(self.state, self.controller)
         self.main_layout.addWidget(self.welcome_bar, 1)
