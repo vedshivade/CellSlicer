@@ -35,7 +35,7 @@ class ImageWidget(QWidget):
         self.button.setIconSize(image.size())
         self.button.setCheckable(True)
 
-        self.button.setMinimumSize(300, 300)
+        self.button.setMinimumSize(200, 200)
 
         self._text = ""
 
@@ -76,6 +76,7 @@ class ImageGridView(QWidget):
 
         self.layout = QGridLayout(self)
         self.layout.setContentsMargins(0, 0, 0, 0)
+        self.layout.setSpacing(5)
         self.setLayout(self.layout)
 
         self.state.imageSelected.connect(self.on_image_selected)
@@ -90,7 +91,7 @@ class ImageGridView(QWidget):
         print(process)
 
     def create_empty_grid(self):
-        for i in range(2):
+        for i in range(3):
             for j in range(3):
                 image_widget = ImageWidget('', i*3+j)
                 self.layout.addWidget(image_widget, i+1, j+1)
@@ -106,7 +107,7 @@ class ImageGridView(QWidget):
         print(path)
 
         process = -1
-        for i in range(2):
+        for i in range(3):
             for j in range(3):
                 process = process + 1
                 if i == 0 and j == 0:
@@ -127,7 +128,7 @@ class ImageGridView(QWidget):
         print(path)
 
         process = -1
-        for i in range(2):
+        for i in range(3):
             for j in range(3):
                 process = process + 1
                 if i == 0 and j == 0:

@@ -23,7 +23,8 @@ class EditorMenu(QMainWindow):
         self.main_widget.setLayout(self.main_layout)
 
         self.setWindowTitle("CellSlicer Sliceor")
-        self.setFixedSize(1700, 820)
+        self.setMinimumHeight(1200)
+        #self.setFixedSize(1700, 1200)
         self.setStyleSheet("background-color: white; color: black")
 
         self.initialize_editor(self.state, self.controller)
@@ -63,6 +64,8 @@ class EditorMenu(QMainWindow):
         self.sub_layout.addWidget(self.vertical_line_2)
 
         self.process_menu = SliceMenu(self.state, self.controller)
+        self.process_menu.setMinimumWidth(400)
+        self.process_menu.setMaximumWidth(400)
         self.sub_layout.addWidget(self.process_menu)
 
         self.vertical_line = QtWidgets.QFrame()
@@ -70,6 +73,8 @@ class EditorMenu(QMainWindow):
         self.sub_layout.addWidget(self.vertical_line)
 
         self.annotate_menu = QueueMenu(self.state, self.controller)
+        self.annotate_menu.setMinimumWidth(400)
+        self.annotate_menu.setMaximumWidth(400)
         self.sub_layout.addWidget(self.annotate_menu)
 
 

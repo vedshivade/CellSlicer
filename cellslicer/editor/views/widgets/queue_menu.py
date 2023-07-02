@@ -1,6 +1,6 @@
 from PySide2.QtWidgets import QApplication, QPushButton, QWidget, QLabel, QVBoxLayout, QHBoxLayout
 from PySide2.QtGui import QFont
-from PySide2.QtCore import Qt, QThread
+from PySide2.QtCore import Qt
 
 class QueueMenu(QWidget):
     def __init__(self, state=None, controller=None):
@@ -57,6 +57,7 @@ class QueueMenu(QWidget):
 
             self.labels[i] = label
             self.configs[i] = config_button
+            config_button.slice_id = i
 
             self.layout.addLayout(label_button_layout)
 

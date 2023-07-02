@@ -33,4 +33,7 @@ class EditorController:
     def handle_apply_queue_to_all(self):
         self.state.worker_queue_all()
 
+    def handle_config_slice(self, slice_id):
+        print(slice_id)
+
 
