@@ -6,3 +6,6 @@ Open-source microscopic segmentation/classification platform with editing + in-a
 
 ![Image 2](./screenshots/start_and_editor.png)
 
+![Image 3](./screenshots/slicer.png)
+
+
