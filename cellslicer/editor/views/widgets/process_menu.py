@@ -4,7 +4,7 @@ from PySide2.QtCore import Qt, QSize, QEvent
 import sys
 
 
-class ProcessMenu(QWidget):
+class SliceMenu(QWidget):
     def __init__(self, state = None, controller = None):
 
         self.std_style_sheet = ("QPushButton { background-color: black; border-style: outset; color: white; font-family: Roboto; border-radius: 2px; font: 16px; min-width: 3em; padding: 6px; border-color: beige;}"
@@ -22,7 +22,7 @@ class ProcessMenu(QWidget):
         self.state.inquiryMade.connect(self.view_processes)
 
         self.label = QLabel()
-        self.label.setText(f"Process")
+        self.label.setText(f"Slice")
         self.label.setAlignment(Qt.AlignLeft | Qt.AlignTop)
         self.label.setFont(QFont("Roboto", 24))
         self.label.setStyleSheet("background-color: white; color: black;")
@@ -39,7 +39,7 @@ class ProcessMenu(QWidget):
         self.layout.addWidget(self.wire_to_label)
 
         self.process_selection = QComboBox()
-        self.process_selection.addItems(["Process 0", "Process 1", "Process 2", "Process 3", "Process 4", "Process 5"])
+        self.process_selection.addItems(["Slice 0", "Slice 1", "Slice 2", "Slice 3", "Slice 4", "Slice 5"])
         self.process_selection.setFont(QFont("Roboto", 16))
         self.process_selection.currentIndexChanged.connect(self.update_process_ladder)
         self.process_selection.setStyleSheet("background-color: transparent; color: black; border: 1px solid black; border-radius: 2px; padding: 4px;")
@@ -47,7 +47,7 @@ class ProcessMenu(QWidget):
         self.layout.addWidget(self.process_selection)
 
         self.select_a_process_label = QLabel()
-        self.select_a_process_label.setText("Select a Process")
+        self.select_a_process_label.setText("Select a Slice")
         self.select_a_process_label.setAlignment(Qt.AlignLeft | Qt.AlignTop)
         self.select_a_process_label.setFont(QFont("Roboto", 16))
         self.select_a_process_label.setStyleSheet("background-color: white; color: black;")
@@ -86,8 +86,8 @@ class ProcessMenu(QWidget):
             self.select_a_process_label.setText(f"Select a {process}")
         else:
             self.wire_to_label.setText("Wire image to")
-            self.current_process = "Process 0"
-            self.select_a_process_label.setText(f"Select a Process 0")
+            self.current_process = "Slice 0"
+            self.select_a_process_label.setText(f"Select a Slice 0")
 
         self.process_selection.setVisible(True)
 

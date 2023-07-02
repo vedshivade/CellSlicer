@@ -2,6 +2,7 @@ from PySide2.QtWidgets import QApplication, QPushButton, QWidget, QHBoxLayout, Q
 from PySide2.QtGui import QPixmap, QIcon, QImage, QFont
 from PySide2.QtCore import Qt, QSize, QEvent
 import sys
+import os
 
 class ImageWidget(QWidget):
     def __init__(self, filename, process):
@@ -13,8 +14,6 @@ class ImageWidget(QWidget):
 
         icon = QIcon(image)
         self.has_icon = not icon.isNull()
-
-
 
         self.button = QPushButton()
         self.button.setStyleSheet("""
@@ -38,9 +37,18 @@ class ImageWidget(QWidget):
 
         self.button.setMinimumSize(300, 300)
 
+        self._text = ""
+
         if not self.has_icon:
-            self.button.setText(f"Process {process}")
+            self.button.setText(f"Slice {process}")
+            self._text = f"Slice {process}"
             self.button.setFont(QFont("Roboto", 48))
+
+        if self.has_icon:
+            self.button.setText("")
+            self._text = f"Slice {process}"
+            self.button.setFont(QFont("Roboto", 0))
+
 
         layout = QHBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -72,6 +80,7 @@ class ImageGridView(QWidget):
 
         self.state.imageSelected.connect(self.on_image_selected)
         self.state.tasksUpdated.connect(self.update_tasks)
+        self.state.processDone.connect(self.rebuild_grid)
 
 
         self.image_widgets = []
@@ -88,10 +97,35 @@ class ImageGridView(QWidget):
                 self.image_widgets.append(image_widget)
                 image_widget.button.clicked[bool].connect(lambda checked, image_widget=image_widget: self.handle_button_click(checked, image_widget))
         
+    def rebuild_grid(self):
+        self.clear_layout(self.layout)
+        self.image_widgets = []
+
+        main_img = self.state.current_image
+        path = os.path.dirname(os.path.dirname(main_img))
+        print(path)
+
+        process = -1
+        for i in range(2):
+            for j in range(3):
+                process = process + 1
+                if i == 0 and j == 0:
+                    image_widget = ImageWidget(self.state.current_image, process)
+                else:
+                    image_widget = ImageWidget(f"{path}/" + "process_" + str(process) + "/" + os.path.basename(self.state.current_image), process)
+
+                self.layout.addWidget(image_widget, i+1, j+1)
+                self.image_widgets.append(image_widget)
+                image_widget.button.clicked[bool].connect(lambda checked, image_widget=image_widget: self.handle_button_click(checked, image_widget))
+
 
     def on_image_selected(self, filename):
         self.clear_layout(self.layout)
         self.image_widgets = []
+
+        path = os.path.dirname(os.path.dirname(filename))
+        print(path)
+
         process = -1
         for i in range(2):
             for j in range(3):
@@ -99,7 +133,8 @@ class ImageGridView(QWidget):
                 if i == 0 and j == 0:
                     image_widget = ImageWidget(filename, process)
                 else:
-                    image_widget = ImageWidget('', process)
+                    image_widget = ImageWidget(f"{path}/" + "process_" + str(process) + "/" + os.path.basename(self.state.current_image), process)
+
                 self.layout.addWidget(image_widget, i+1, j+1)
                 self.image_widgets.append(image_widget)
                 image_widget.button.clicked[bool].connect(lambda checked, image_widget=image_widget: self.handle_button_click(checked, image_widget))
@@ -107,8 +142,7 @@ class ImageGridView(QWidget):
 
     def handle_button_click(self, checked, image_widget):
         if checked:
-            print(f"{image_widget.filename} selected!")
-            self.controller.handle_process_inquiry(image_widget.filename, image_widget.button.text())
+            self.controller.handle_process_inquiry(image_widget.filename, image_widget._text)
             for other_image_widget in self.image_widgets:
                 if other_image_widget != image_widget:
                     other_image_widget.button.setChecked(False)

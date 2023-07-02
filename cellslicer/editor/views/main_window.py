@@ -7,7 +7,7 @@ import os, sys
 
 from .widgets.image_scroll import ScrollableThumbnailsArea
 from .widgets.grid_viewer import ImageGridView
-from .widgets.process_menu import ProcessMenu
+from .widgets.process_menu import SliceMenu
 from .widgets.queue_menu import QueueMenu
 
 class EditorMenu(QMainWindow):
@@ -22,7 +22,7 @@ class EditorMenu(QMainWindow):
 
         self.main_widget.setLayout(self.main_layout)
 
-        self.setWindowTitle("CellSlicer Editor")
+        self.setWindowTitle("CellSlicer Sliceor")
         self.setFixedSize(1700, 820)
         self.setStyleSheet("background-color: white; color: black")
 
@@ -32,7 +32,7 @@ class EditorMenu(QMainWindow):
         self.main_layout.setSpacing(0)
 
         self.cell_slicer_label = QLabel()
-        self.cell_slicer_label.setText("CellSlicer")
+        self.cell_slicer_label.setText("CellSlicer Slicer")
         self.cell_slicer_label.setFont(QFont("Roboto", 36))
         self.cell_slicer_label.setStyleSheet("background-color: white; color: black;")
         self.cell_slicer_label.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -51,14 +51,18 @@ class EditorMenu(QMainWindow):
 
         self.sub_layout = QHBoxLayout()
         self.sub_layout.setContentsMargins(0, 0, 0, 0)
-        self.sub_layout.setSpacing(0)
+        self.sub_layout.setSpacing(10)
 
         self.main_layout.addLayout(self.sub_layout)
 
         self.image_grid_view = ImageGridView(self.state, self.controller)
         self.sub_layout.addWidget(self.image_grid_view)
 
-        self.process_menu = ProcessMenu(self.state, self.controller)
+        self.vertical_line_2 = QtWidgets.QFrame()
+        self.vertical_line_2.setFrameShape(QtWidgets.QFrame.VLine)
+        self.sub_layout.addWidget(self.vertical_line_2)
+
+        self.process_menu = SliceMenu(self.state, self.controller)
         self.sub_layout.addWidget(self.process_menu)
 
         self.vertical_line = QtWidgets.QFrame()

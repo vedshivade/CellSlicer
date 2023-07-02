@@ -43,7 +43,7 @@ class QueueMenu(QWidget):
 
             label = QPushButton()
             label.setFont(QFont("Roboto", 16))
-            label.setText(f"Process {i}")
+            label.setText(f"Slice {i}")
             label.setStyleSheet(self.std_style_sheet)
             label.setFixedSize(300, 30)
             label_button_layout.addWidget(label)
@@ -72,7 +72,7 @@ class QueueMenu(QWidget):
         for key, value in ladder.items():
             if key in self.labels:
                 if key == 0:
-                    self.labels[key].setText(f"Image -> Process {value}")
+                    self.labels[key].setText(f"Image -> Slice {value}")
                 else:
-                    self.labels[key].setText(f"Process {key} -> Process {value}")
+                    self.labels[key].setText(f"Slice {key} -> Slice {value}")
 

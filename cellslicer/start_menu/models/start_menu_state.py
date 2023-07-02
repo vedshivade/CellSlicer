@@ -25,7 +25,7 @@ class StartMenuState:
             # Read the lines from the file
             lines = text_file.readlines()
 
-        # Process the lines and store the values in variables
+        # Slice the lines and store the values in variables
             self.project_name = lines[0].split(": ")[1].strip()
             self.data_labeled = bool(lines[1].split(": ")[1].strip())
             self.chosen_model = lines[2].split(": ")[1].strip()

@@ -16,6 +16,7 @@ class EditorState(QObject):
     inquiryMade = Signal(str, str)
     ladderUpdated = Signal(dict)
     tasksUpdated = Signal(int, str)
+    processDone = Signal()
 
     def __init__(self, project):
         super().__init__()
@@ -70,9 +71,10 @@ class EditorState(QObject):
                 self.save_edited_image(edited_image, forward)
 
     def save_edited_image(self, edited_image, forward):
-        edited_image_path = "../cellslicer/projects/" + self.project_name + f"/process_{forward}/" + str(os.path.basename(self.current_image)) + ".png"
+        edited_image_path = "../cellslicer/projects/" + self.project_name + f"/process_{forward}/" + str(os.path.basename(self.current_image))
         print(edited_image_path)
         cv2.imwrite(edited_image_path, edited_image)
+        self.processDone.emit()
 
 
 
