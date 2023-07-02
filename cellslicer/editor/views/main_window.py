@@ -32,7 +32,7 @@ class EditorMenu(QMainWindow):
         self.main_layout.setSpacing(0)
 
         self.cell_slicer_label = QLabel()
-        self.cell_slicer_label.setText("CellSlicer Slicer")
+        self.cell_slicer_label.setText("CellSlicer")
         self.cell_slicer_label.setFont(QFont("Roboto", 36))
         self.cell_slicer_label.setStyleSheet("background-color: white; color: black;")
         self.cell_slicer_label.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)

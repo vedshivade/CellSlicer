@@ -1,6 +1,6 @@
 from PySide2.QtWidgets import QApplication, QPushButton, QWidget, QLabel, QVBoxLayout, QHBoxLayout
 from PySide2.QtGui import QFont
-from PySide2.QtCore import Qt
+from PySide2.QtCore import Qt, QThread
 
 class QueueMenu(QWidget):
     def __init__(self, state=None, controller=None):
@@ -62,11 +62,21 @@ class QueueMenu(QWidget):
 
         self.layout.addStretch()
 
+        self.apply_queue_to_all = QPushButton()
+        self.apply_queue_to_all.setText("Apply Queue to All")
+        self.apply_queue_to_all.setStyleSheet(self.std_style_sheet)
+        self.apply_queue_to_all.clicked.connect(self.on_click_apply_queue_to_all)
+        self.layout.addWidget(self.apply_queue_to_all)
+
+
     def on_click_start_queue(self):
         self.controller.handle_start_queue()
 
     def on_tasks_update(self, index, task):
         self.configs[index].setText(task)
+
+    def on_click_apply_queue_to_all(self):
+        self.controller.handle_apply_queue_to_all()
 
     def update_ladder_UI(self, ladder):
         for key, value in ladder.items():

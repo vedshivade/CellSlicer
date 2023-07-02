@@ -2,7 +2,7 @@ import os, sys
 from PySide2.QtWidgets import QFileDialog, QProgressBar, QDialog, QVBoxLayout, QLabel, QApplication
 from PySide2 import QtWidgets
 from PySide2.QtGui import QDesktopServices
-from PySide2.QtCore import Signal, QObject
+from PySide2.QtCore import Signal, QObject, QThreadPool, QRunnable
 import shutil
 from collections import defaultdict
 import io
@@ -10,7 +10,20 @@ import cv2
 
 from cellslicer.util.graphcut import graph_cut
 
+class Worker(QRunnable):
+
+    def __init__(self, fn, *args, **kwargs):
+        super(Worker, self).__init__()
+        self.fn = fn
+        self.args = args
+        self.kwargs = kwargs
+
+    def run(self):
+
+        self.fn(*self.args, **self.kwargs)
+
 class EditorState(QObject):
+
 
     imageSelected = Signal(str)
     inquiryMade = Signal(str, str)
@@ -28,6 +41,9 @@ class EditorState(QObject):
         self.process_ladder = {}
         self.process_items = {}
         self.job_q = defaultdict(list)
+
+        self.threadpool = QThreadPool()
+        print("Multithreading with maximum %d threads" % self.threadpool.maxThreadCount())
 
     def import_images(self):
         print()
@@ -54,6 +70,10 @@ class EditorState(QObject):
         self.process_items[process_int] = task
         self.tasksUpdated.emit(process_int, task)
 
+    def start_queue_worker(self):
+        queue_work = Worker(self.start_queue)
+        self.threadpool.start(queue_work)
+
     def start_queue(self):
         job_q = defaultdict(list)
         for key in self.process_items:
@@ -75,6 +95,17 @@ class EditorState(QObject):
         print(edited_image_path)
         cv2.imwrite(edited_image_path, edited_image)
         self.processDone.emit()
+
+    def apply_que_to_all(self):
+        for image in self.images:
+            self.set_current_image(image)
+            self.start_queue()
+
+    def worker_queue_all(self):
+        worker = Worker(self.apply_que_to_all) # Any other args, kwargs are passed to the run function
+        self.threadpool.start(worker)
+
+        
 
 
 

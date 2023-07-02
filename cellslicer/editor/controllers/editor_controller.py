@@ -28,6 +28,9 @@ class EditorController:
         self.state.update_process_task(process, task)
 
     def handle_start_queue(self):
-        self.state.start_queue()
+        self.state.start_queue_worker()
+
+    def handle_apply_queue_to_all(self):
+        self.state.worker_queue_all()
 
 

@@ -67,7 +67,7 @@ class ScrollableThumbnailsArea(QWidget):
         image_filenames = self.state.images
 
         self.scrollArea = QScrollArea()
-        self.scrollArea.setMinimumSize(2000, 100)
+        #self.scrollArea.setMinimumSize(2000, 100)
         self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
 
